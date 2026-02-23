@@ -241,9 +241,20 @@ export default function ImageUploader({
                   setCrop(undefined);
                 }}
                 className="p-2 rounded-lg bg-white/90 hover:bg-white text-gray-700 transition-colors"
-                title="裁剪图片"
+                title="裁剪当前图片"
               >
                 <CropIcon className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  inputRef.current?.click();
+                }}
+                className="p-2 rounded-lg bg-white/90 hover:bg-white text-gray-700 transition-colors"
+                title="替换图片"
+              >
+                <Upload className="w-4 h-4" />
               </button>
               <button
                 type="button"
@@ -303,6 +314,15 @@ export default function ImageUploader({
                 />
               </ReactCrop>
               <div className="flex justify-end gap-2 mt-4">
+                <button
+                  type="button"
+                  onClick={() => inputRef.current?.click()}
+                  className="px-4 py-2 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors flex items-center gap-2 mr-auto"
+                  title="选择本地文件"
+                >
+                  <Upload className="w-4 h-4" />
+                  更换图片
+                </button>
                 <button
                   type="button"
                   onClick={handleCancelCrop}

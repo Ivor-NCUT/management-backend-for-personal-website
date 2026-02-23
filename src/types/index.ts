@@ -82,6 +82,7 @@ export interface Experience {
   description: string;
   initial: string;
   color: ExperienceColor;
+  logo?: string;
 }
 
 /* ── Network ── */

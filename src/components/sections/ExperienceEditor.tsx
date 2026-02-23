@@ -12,6 +12,7 @@ import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
 import Modal from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
+import ImageUploader from "@/components/ui/ImagePreview";
 import { Pencil, Trash2 } from "lucide-react";
 import type { Experience, ExperienceColor } from "@/types";
 
@@ -68,10 +69,14 @@ export default function ExperienceEditor() {
         {experiences.map((exp) => (
           <Card key={exp.id} className="flex items-center gap-4 !p-4">
             <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-semibold flex-shrink-0"
-              style={{ backgroundColor: COLOR_MAP[exp.color] }}
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-semibold flex-shrink-0 overflow-hidden"
+              style={{ backgroundColor: exp.logo ? 'transparent' : COLOR_MAP[exp.color] }}
             >
-              {exp.initial}
+              {exp.logo ? (
+                <img src={exp.logo} alt={exp.company} className="w-full h-full object-cover" />
+              ) : (
+                exp.initial
+              )}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-gray-900">
@@ -146,26 +151,12 @@ export default function ExperienceEditor() {
                 setEditing({ ...editing, description: e.target.value })
               }
             />
-            {/* ── 颜色选择 ── */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                颜色
-              </label>
-              <div className="flex gap-3">
-                {COLORS.map((c) => (
-                  <button
-                    key={c}
-                    onClick={() => setEditing({ ...editing, color: c })}
-                    className={`w-8 h-8 rounded-full border-2 transition-all ${
-                      editing.color === c
-                        ? "border-gray-900 scale-110"
-                        : "border-transparent"
-                    }`}
-                    style={{ backgroundColor: COLOR_MAP[c] }}
-                  />
-                ))}
-              </div>
-            </div>
+            <ImageUploader
+              label="公司图标 (1:1)"
+              value={editing.logo || ""}
+              onChange={(url) => setEditing({ ...editing, logo: url })}
+              aspectRatio={1}
+            />
             <div className="flex justify-end gap-2 pt-2">
               <Button variant="secondary" onClick={() => setEditing(null)}>
                 取消

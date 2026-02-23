@@ -5,5 +5,6 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   build: { sourcemap: "hidden" },
+  server: { port: 5174 },
   plugins: [tailwindcss(), react(), tsconfigPaths()],
 });
