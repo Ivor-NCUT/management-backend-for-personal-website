@@ -25,9 +25,13 @@ export async function uploadImage(file: File): Promise<UploadResult> {
     throw new Error(error?.message || "上传失败");
   }
 
+  const { data: { publicUrl } } = insforge.storage
+    .from(STORAGE_BUCKET)
+    .getPublicUrl(data.path || key);
+
   return {
-    url: data.url,
-    key: data.key,
+    url: publicUrl,
+    key: data.path || key,
   };
 }
 

@@ -58,14 +58,10 @@ export interface LinkItem {
 /* ── Works ── */
 export interface Work {
   id: number;
-  location: string;
   title: string;
-  tags: string[];
-  date: string;
-  org: string;
-  orgInitial: string;
   image: string;
   category: string;
+  link?: string;
 }
 
 /* ── Filters ── */
@@ -89,21 +85,18 @@ export interface Experience {
 }
 
 /* ── Network ── */
-export interface Article {
-  source: string;
+export interface NetworkLink {
   title: string;
+  url: string;
 }
 
 export interface NetworkPerson {
   id: string;
-  name: string;
-  role: string;
-  company: string;
-  companyDesc: string;
-  location: string;
-  teamSize: string;
-  valuation: string;
-  articles: Article[];
+  nickname: string;
+  recommendation: string;
+  baseLocation: string;
+  links: NetworkLink[];
+  avatar?: string;
 }
 
 /* ── Store 全量 ── */

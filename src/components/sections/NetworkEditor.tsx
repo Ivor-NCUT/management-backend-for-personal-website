@@ -1,7 +1,7 @@
 /**
  * [INPUT]: 依赖 @/stores, @/components/ui/*, @/components/layout/PageHeader
  * [OUTPUT]: 对外提供 NetworkEditor 组件
- * [POS]: sections/ 的合作伙伴编辑器，含嵌套 articles 数组
+ * [POS]: sections/ 的合作伙伴编辑器，含嵌套 links 数组
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
 import { useState } from "react";
@@ -12,19 +12,17 @@ import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
 import Modal from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
+import ImageUploader from "@/components/ui/ImagePreview";
 import { Pencil, Trash2, Plus, X } from "lucide-react";
 import type { NetworkPerson } from "@/types";
 
 const EMPTY: NetworkPerson = {
   id: "",
-  name: "",
-  role: "",
-  company: "",
-  companyDesc: "",
-  location: "",
-  teamSize: "",
-  valuation: "",
-  articles: [],
+  nickname: "",
+  recommendation: "",
+  baseLocation: "",
+  links: [],
+  avatar: "",
 };
 
 export default function NetworkEditor() {
@@ -39,7 +37,11 @@ export default function NetworkEditor() {
   };
 
   const openEdit = (person: NetworkPerson) => {
-    setEditing({ ...person, articles: person.articles.map((a) => ({ ...a })) });
+    setEditing({ 
+      ...EMPTY,
+      ...person, 
+      links: (person.links || []).map((a) => ({ ...a })) 
+    });
     setIsNew(false);
   };
 
@@ -64,17 +66,14 @@ export default function NetworkEditor() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm font-semibold text-gray-900">
-                  {person.company || "未命名"}
+                  {person.nickname || "未命名"}
                 </p>
-                <p className="text-xs text-gray-400 mt-0.5">
-                  {person.name} · {person.role}
+                <p className="text-xs text-gray-400 mt-0.5 line-clamp-2">
+                  {person.recommendation}
                 </p>
                 <div className="flex flex-wrap gap-1 mt-2">
                   <span className="px-2 py-0.5 rounded-full bg-gray-100 text-[10px] text-gray-600">
-                    {person.location}
-                  </span>
-                  <span className="px-2 py-0.5 rounded-full bg-gray-100 text-[10px] text-gray-600">
-                    {person.teamSize}
+                    {person.baseLocation}
                   </span>
                 </div>
               </div>
@@ -111,73 +110,50 @@ export default function NetworkEditor() {
       >
         {editing && (
           <div className="space-y-4">
+            <ImageUploader
+              label="头像 (1:1)"
+              value={editing.avatar || ""}
+              onChange={(url) => setEditing({ ...editing, avatar: url })}
+              aspectRatio={1}
+              className="w-48"
+            />
             <div className="grid grid-cols-2 gap-3">
               <Input
-                label="姓名"
-                value={editing.name}
+                label="昵称"
+                value={editing.nickname}
                 onChange={(e) =>
-                  setEditing({ ...editing, name: e.target.value })
+                  setEditing({ ...editing, nickname: e.target.value })
                 }
               />
               <Input
-                label="角色"
-                value={editing.role}
+                label="base 地"
+                value={editing.baseLocation}
                 onChange={(e) =>
-                  setEditing({ ...editing, role: e.target.value })
+                  setEditing({ ...editing, baseLocation: e.target.value })
                 }
               />
             </div>
-            <Input
-              label="公司"
-              value={editing.company}
-              onChange={(e) =>
-                setEditing({ ...editing, company: e.target.value })
-              }
-            />
             <Textarea
-              label="公司描述"
-              value={editing.companyDesc}
+              label="推荐语"
+              value={editing.recommendation}
               onChange={(e) =>
-                setEditing({ ...editing, companyDesc: e.target.value })
+                setEditing({ ...editing, recommendation: e.target.value })
               }
             />
-            <div className="grid grid-cols-3 gap-3">
-              <Input
-                label="地点"
-                value={editing.location}
-                onChange={(e) =>
-                  setEditing({ ...editing, location: e.target.value })
-                }
-              />
-              <Input
-                label="团队规模"
-                value={editing.teamSize}
-                onChange={(e) =>
-                  setEditing({ ...editing, teamSize: e.target.value })
-                }
-              />
-              <Input
-                label="估值"
-                value={editing.valuation}
-                onChange={(e) =>
-                  setEditing({ ...editing, valuation: e.target.value })
-                }
-              />
-            </div>
 
-            {/* ── 文章列表 ── */}
+            {/* ── 链接列表 ── */}
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="text-sm font-medium text-gray-700">
-                  相关文章
+                  相关链接
                 </label>
                 <button
                   onClick={() =>
                     setEditing({
                       ...editing,
-                      articles: [
-                        ...editing.articles,
-                        { source: "", title: "" },
+                      links: [
+                        ...editing.links,
+                        { title: "", url: "" },
                       ],
                     })
                   }
@@ -187,34 +163,34 @@ export default function NetworkEditor() {
                 </button>
               </div>
               <div className="space-y-2">
-                {editing.articles.map((article, i) => (
+                {editing.links.map((link, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <input
-                      value={article.source}
+                      value={link.title}
                       onChange={(e) => {
-                        const articles = [...editing.articles];
-                        articles[i] = { ...articles[i], source: e.target.value };
-                        setEditing({ ...editing, articles });
+                        const links = [...editing.links];
+                        links[i] = { ...links[i], title: e.target.value };
+                        setEditing({ ...editing, links });
                       }}
-                      placeholder="来源"
+                      placeholder="标题"
                       className="w-28 h-9 px-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                     />
                     <input
-                      value={article.title}
+                      value={link.url}
                       onChange={(e) => {
-                        const articles = [...editing.articles];
-                        articles[i] = { ...articles[i], title: e.target.value };
-                        setEditing({ ...editing, articles });
+                        const links = [...editing.links];
+                        links[i] = { ...links[i], url: e.target.value };
+                        setEditing({ ...editing, links });
                       }}
-                      placeholder="标题"
+                      placeholder="跳转链接"
                       className="flex-1 h-9 px-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                     />
                     <button
                       onClick={() => {
-                        const articles = editing.articles.filter(
+                        const links = editing.links.filter(
                           (_, j) => j !== i,
                         );
-                        setEditing({ ...editing, articles });
+                        setEditing({ ...editing, links });
                       }}
                       className="p-1 rounded hover:bg-red-50 text-gray-400 hover:text-red-500"
                     >

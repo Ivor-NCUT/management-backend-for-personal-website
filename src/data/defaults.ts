@@ -79,12 +79,12 @@ export const DEFAULT_DATA: PortfolioData = {
 
   /* ── Works ── */
   works: [
-    { id: 1, location: "上海", title: "SparkLab A.I.R 招募", tags: ["黑客马拉松", "Residency", "AI"], date: "2024.04.01", org: "SparkLab", orgInitial: "S", image: "/.figma/image/mlqnrv6p-qk5kvki.png", category: "All" },
-    { id: 2, location: "深圳", title: "Disrupt Beyond Borders: Antler 全球化交流会", tags: ["科技峰会", "Startup", "Global"], date: "2024.04.10", org: "Antler", orgInitial: "A", image: "/.figma/image/mlqnrv6p-yo8wat8.png", category: "All" },
-    { id: 3, location: "上海", title: "Wine Coding: 醉后写代码", tags: ["学术酒吧", "Fun", "Coding"], date: "2024.03.28", org: "Wine Coding", orgInitial: "W", image: "/.figma/image/mlqnrv6p-5mjfki0.png", category: "All" },
-    { id: 4, location: "上海", title: "AI Hackathon Tour 上海站", tags: ["黑客马拉松", "AI", "Hackathon"], date: "2024.04.15", org: "SegmentFault", orgInitial: "S", image: "/.figma/image/mlqnrv6p-ad8dqr6.png", category: "All" },
-    { id: 5, location: "杭州", title: "Workshop: Coding For Art", tags: ["实战工作坊", "Art", "Code"], date: "2024.05.01", org: "Bonjour!", orgInitial: "B", image: "/.figma/image/mlqnrv6p-d2quume.png", category: "All" },
-    { id: 6, location: "北京", title: "2026「女子力」计划回顾 | Skyscanner 携手 Coding Girls", tags: ["社群聚会", "Coding", "Women in Tech"], date: "2024.03.20", org: "Coding Girls", orgInitial: "C", image: "/.figma/image/mlqnrv6p-0ganx29.png", category: "All" },
+    { id: 1, title: "SparkLab A.I.R 招募", image: "/.figma/image/mlqnrv6p-qk5kvki.png", category: "All", link: "https://example.com" },
+    { id: 2, title: "Disrupt Beyond Borders: Antler 全球化交流会", image: "/.figma/image/mlqnrv6p-yo8wat8.png", category: "All", link: "https://example.com" },
+    { id: 3, title: "Wine Coding: 醉后写代码", image: "/.figma/image/mlqnrv6p-5mjfki0.png", category: "All", link: "https://example.com" },
+    { id: 4, title: "AI Hackathon Tour 上海站", image: "/.figma/image/mlqnrv6p-ad8dqr6.png", category: "All", link: "https://example.com" },
+    { id: 5, title: "Workshop: Coding For Art", image: "/.figma/image/mlqnrv6p-d2quume.png", category: "All", link: "https://example.com" },
+    { id: 6, title: "2026「女子力」计划回顾 | Skyscanner 携手 Coding Girls", image: "/.figma/image/mlqnrv6p-0ganx29.png", category: "All", link: "https://example.com" },
   ],
 
   /* ── Filters ── */
@@ -110,23 +110,21 @@ export const DEFAULT_DATA: PortfolioData = {
   /* ── Network ── */
   network: [
     {
-      id: "n1", name: "Vincent", role: "Founder", company: "Xmind",
-      companyDesc: "领先的思维导图软件，帮助用户轻松捕捉灵感，激发创意、提高生产力。",
-      location: "深圳", teamSize: "50-100人", valuation: "$20M估值",
-      articles: [
-        { source: "🎧 42 章经", title: "不上大学的 00 后 CEO：用数字名..." },
-        { source: "📰 极客公园", title: "不上大学的 00 后 CEO：用数字名片..." },
-        { source: "✍️ 创始人说", title: "不上大学的 00 后 CEO：用数字名..." },
+      id: "n1", nickname: "Vincent", recommendation: "领先的思维导图软件，帮助用户轻松捕捉灵感，激发创意、提高生产力。",
+      baseLocation: "深圳",
+      links: [
+        { title: "不上大学的 00 后 CEO：用数字名...", url: "https://example.com" },
+        { title: "不上大学的 00 后 CEO：用数字名片...", url: "https://example.com" },
+        { title: "不上大学的 00 后 CEO：用数字名...", url: "https://example.com" },
       ],
     },
     {
-      id: "n2", name: "Vincent", role: "Founder", company: "Xmind",
-      companyDesc: "领先的思维导图软件，帮助用户轻松捕捉灵感，激发创意、提高生产力。",
-      location: "深圳", teamSize: "50-100人", valuation: "$20M估值",
-      articles: [
-        { source: "🎧 42 章经", title: "不上大学的 00 后 CEO：用数字名..." },
-        { source: "📰 极客公园", title: "不上大学的 00 后 CEO：用数字名片..." },
-        { source: "✍️ 创始人说", title: "不上大学的 00 后 CEO：用数字名..." },
+      id: "n2", nickname: "Vincent", recommendation: "领先的思维导图软件，帮助用户轻松捕捉灵感，激发创意、提高生产力。",
+      baseLocation: "深圳",
+      links: [
+        { title: "不上大学的 00 后 CEO：用数字名...", url: "https://example.com" },
+        { title: "不上大学的 00 后 CEO：用数字名片...", url: "https://example.com" },
+        { title: "不上大学的 00 后 CEO：用数字名...", url: "https://example.com" },
       ],
     },
   ],

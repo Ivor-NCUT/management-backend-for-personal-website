@@ -187,7 +187,11 @@ export default function ImageUploader({
   };
 
   return (
-    <div className={className} onPaste={handlePaste}>
+    <div 
+      className={`${className} outline-none focus:ring-2 focus:ring-blue-500/50 rounded-xl transition-shadow`}
+      onPaste={handlePaste}
+      tabIndex={0}
+    >
       {label && (
         <label className="block text-sm font-medium text-gray-700 mb-1.5">
           {label}

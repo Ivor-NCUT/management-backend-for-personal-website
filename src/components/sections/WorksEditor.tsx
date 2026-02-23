@@ -9,7 +9,6 @@ import { usePortfolioStore } from "@/stores/usePortfolioStore";
 import PageHeader from "@/components/layout/PageHeader";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
-import TagInput from "@/components/ui/TagInput";
 import ImageUploader from "@/components/ui/ImagePreview";
 import Modal from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
@@ -18,14 +17,10 @@ import type { Work } from "@/types";
 
 const EMPTY_WORK: Work = {
   id: 0,
-  location: "",
   title: "",
-  tags: [],
-  date: "",
-  org: "",
-  orgInitial: "",
   image: "",
   category: "All",
+  link: "",
 };
 
 export default function WorksEditor() {
@@ -78,7 +73,7 @@ export default function WorksEditor() {
                 {work.title || "未命名"}
               </p>
               <p className="text-xs text-gray-400">
-                {work.location} · {work.date} · {work.org}
+                {work.link || "无链接"}
               </p>
             </div>
             <div className="flex items-center gap-1 flex-shrink-0">
@@ -121,58 +116,31 @@ export default function WorksEditor() {
                 setEditing({ ...editing, title: e.target.value })
               }
             />
-            <div className="grid grid-cols-2 gap-3">
-              <Input
-                label="地点"
-                value={editing.location}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                分类
+              </label>
+              <select
+                value={editing.category}
                 onChange={(e) =>
-                  setEditing({ ...editing, location: e.target.value })
+                  setEditing({ ...editing, category: e.target.value })
                 }
-              />
-              <Input
-                label="日期"
-                value={editing.date}
-                onChange={(e) =>
-                  setEditing({ ...editing, date: e.target.value })
-                }
-                placeholder="2024.04.01"
-              />
+                className="w-full h-10 px-3 rounded-xl bg-white border border-gray-200 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              >
+                {filters.map((f) => (
+                  <option key={f.id} value={f.name}>
+                    {f.name}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <Input
-                label="主办方"
-                value={editing.org}
-                onChange={(e) =>
-                  setEditing({
-                    ...editing,
-                    org: e.target.value,
-                    orgInitial: e.target.value[0]?.toUpperCase() || "",
-                  })
-                }
-              />
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                  分类
-                </label>
-                <select
-                  value={editing.category}
-                  onChange={(e) =>
-                    setEditing({ ...editing, category: e.target.value })
-                  }
-                  className="w-full h-10 px-3 rounded-xl bg-white border border-gray-200 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                >
-                  {filters.map((f) => (
-                    <option key={f.id} value={f.name}>
-                      {f.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <TagInput
-              label="标签"
-              value={editing.tags}
-              onChange={(tags) => setEditing({ ...editing, tags })}
+            <Input
+              label="跳转链接"
+              value={editing.link || ""}
+              onChange={(e) =>
+                setEditing({ ...editing, link: e.target.value })
+              }
+              placeholder="https://..."
             />
             <ImageUploader
               label="封面图"
