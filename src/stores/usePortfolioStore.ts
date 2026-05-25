@@ -15,6 +15,7 @@ import type {
   Work,
   Filter,
   Experience,
+  NetworkPartnerType,
   NetworkPerson,
 } from "@/types";
 
@@ -58,6 +59,10 @@ interface PortfolioStore extends PortfolioData {
   deleteExperience: (id: number) => void;
 
   /* ── Network ── */
+  setNetworkPartnerTypes: (items: NetworkPartnerType[]) => void;
+  addNetworkPartnerType: (item: NetworkPartnerType) => void;
+  updateNetworkPartnerType: (id: string, data: Partial<NetworkPartnerType>) => void;
+  deleteNetworkPartnerType: (id: string) => void;
   setNetwork: (items: NetworkPerson[]) => void;
   addNetworkPerson: (item: NetworkPerson) => void;
   updateNetworkPerson: (id: string, data: Partial<NetworkPerson>) => void;
@@ -80,6 +85,11 @@ const arrayDelete = <T extends { id: string | number }>(
   arr: T[],
   id: string | number,
 ): T[] => arr.filter((item) => item.id !== id);
+
+const removePartnerTypeId = (person: NetworkPerson, id: string): NetworkPerson => ({
+  ...person,
+  partnerTypeIds: (person.partnerTypeIds ?? []).filter((itemId) => itemId !== id),
+});
 
 export const usePortfolioStore = create<PortfolioStore>()(
   persist(
@@ -136,6 +146,18 @@ export const usePortfolioStore = create<PortfolioStore>()(
         set((s) => ({ experiences: arrayDelete(s.experiences, id) })),
 
       /* ── Network ── */
+      setNetworkPartnerTypes: (items) => set({ networkPartnerTypes: items }),
+      addNetworkPartnerType: (item) =>
+        set((s) => ({ networkPartnerTypes: [...s.networkPartnerTypes, item] })),
+      updateNetworkPartnerType: (id, data) =>
+        set((s) => ({
+          networkPartnerTypes: arrayUpdate(s.networkPartnerTypes, id, data),
+        })),
+      deleteNetworkPartnerType: (id) =>
+        set((s) => ({
+          networkPartnerTypes: arrayDelete(s.networkPartnerTypes, id),
+          network: s.network.map((person) => removePartnerTypeId(person, id)),
+        })),
       setNetwork: (items) => set({ network: items }),
       addNetworkPerson: (item) =>
         set((s) => ({ network: [...s.network, item] })),
@@ -155,6 +177,7 @@ export const usePortfolioStore = create<PortfolioStore>()(
           works: s.works,
           filters: s.filters,
           experiences: s.experiences,
+          networkPartnerTypes: s.networkPartnerTypes,
           network: s.network,
         };
       },

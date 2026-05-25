@@ -1,11 +1,9 @@
 /**
  * [INPUT]: 无外部依赖
- * [OUTPUT]: 所有数据类型定义
- * [POS]: types/ 的唯一文件，定义整个系统的数据契约
+ * [OUTPUT]: 后台与主站共享的数据类型定义
+ * [POS]: types/ 的作品集数据契约
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
-
-/* ── Hero ── */
 export interface HeroTag {
   emoji: string;
   label: string;
@@ -35,7 +33,6 @@ export interface HeroData {
   feishuLink?: string;
 }
 
-/* ── Status ── */
 export interface StatusCard {
   id: string;
   emoji: string;
@@ -46,7 +43,6 @@ export interface StatusCard {
   image?: string;
 }
 
-/* ── Social & AI (同构) ── */
 export interface LinkItem {
   id: string;
   name: string;
@@ -55,7 +51,6 @@ export interface LinkItem {
   url?: string;
 }
 
-/* ── Works ── */
 export interface Work {
   id: number;
   title: string;
@@ -64,14 +59,12 @@ export interface Work {
   link?: string;
 }
 
-/* ── Filters ── */
 export interface Filter {
   id: string;
   name: string;
   count: number;
 }
 
-/* ── Experience ── */
 export type ExperienceColor = "blue" | "dark" | "purple";
 
 export interface Experience {
@@ -85,10 +78,15 @@ export interface Experience {
   logo?: string;
 }
 
-/* ── Network ── */
 export interface NetworkLink {
   title: string;
-  url: string;
+  url?: string;
+  image?: string;
+}
+
+export interface NetworkPartnerType {
+  id: string;
+  label: string;
 }
 
 export interface NetworkPerson {
@@ -97,10 +95,11 @@ export interface NetworkPerson {
   recommendation: string;
   baseLocation: string;
   links: NetworkLink[];
+  partnerTypeIds: string[];
   avatar?: string;
+  tags: string[];
 }
 
-/* ── Store 全量 ── */
 export interface PortfolioData {
   hero: HeroData;
   statusCards: StatusCard[];
@@ -109,5 +108,6 @@ export interface PortfolioData {
   works: Work[];
   filters: Filter[];
   experiences: Experience[];
+  networkPartnerTypes: NetworkPartnerType[];
   network: NetworkPerson[];
 }

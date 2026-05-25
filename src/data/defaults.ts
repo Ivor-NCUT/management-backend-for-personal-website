@@ -1,131 +1,106 @@
 /**
- * [INPUT]: 依赖 @/types 的所有数据类型
- * [OUTPUT]: 对外提供 DEFAULT_DATA 默认数据集
- * [POS]: data/ 的默认数据源，从主站组件提取的硬编码数据
+ * [INPUT]: 依赖 @/types
+ * [OUTPUT]: 后台可编辑数据的默认值
+ * [POS]: data/ 的默认作品集数据
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
 import type { PortfolioData } from "@/types";
 
+const PLACEHOLDER_IMAGE =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Crect width='640' height='480' fill='%23f1f5f9'/%3E%3Cpath d='M96 360l128-140 88 96 72-80 160 124z' fill='%2394a3b8'/%3E%3Ccircle cx='448' cy='144' r='48' fill='%23cbd5e1'/%3E%3C/svg%3E";
+
 export const DEFAULT_DATA: PortfolioData = {
-  /* ── Hero ── */
   hero: {
-    profileImage: "/.figma/image/mlqnrv6p-t5b6tvc.png",
+    profileImage: PLACEHOLDER_IMAGE,
     name: "泛函",
-    badge: "奇绩创坛 S25 校友",
+    badge: "Agent Native CEO",
     introLines: [
-      { emoji: "👋🏻", text: "CMO@Bonjour!｜00 后创业" },
-      { emoji: "🧑🏻‍🚀", text: "在帮助 GenAI 公司招聘年轻有创造力的 Builder" },
-      { emoji: "🏛️", text: "同时在帮助年轻 Builder 寻找高增长的科技公司" },
+      { emoji: "AI", text: "用 AI 工作系统经营长期项目" },
+      { emoji: "OS", text: "把内容、服务与工具沉淀成资产" },
     ],
-    location: "杭州·西湖·云谷中心",
+    location: "Shanghai / Remote",
     tags: [
-      { emoji: "🕵️‍♀️️", label: "CMO@Bonjour!" },
-      { emoji: "🧙‍♂️", label: "商业化" },
-      { emoji: "💡", label: "AI行业招聘与求职" },
-      { emoji: "😎", label: "他" },
+      { emoji: "AI", label: "Agent Workflow" },
+      { emoji: "CEO", label: "Business System" },
     ],
     navLinks: [
-      { label: "关于我", href: "#about" },
-      { label: "精选作品", href: "#works" },
-      { label: "人际网络", href: "#network" },
-      { label: "职业经历", href: "#experience" },
+      { label: "作品", href: "#works" },
+      { label: "经历", href: "#experience" },
+      { label: "连接", href: "#network" },
     ],
-    verifiedTitle: "Full-time Builder",
-    coffeeChatText: "可约线上coffee chat",
-    wechatQrCode: "",
+    verifiedTitle: "已验证的长期主义者",
+    coffeeChatText: "欢迎交流 AI 原生工作方式",
+    wechatQrCode: PLACEHOLDER_IMAGE,
     feishuLink: "",
   },
-
-  /* ── Status ── */
   statusCards: [
     {
-      id: "status-1",
-      emoji: "🔥",
-      label: "最近的找人状态",
-      titleEmoji: "🙋️",
-      title: "项目合作",
-      description:
-        "想认识有自己的服务项目、能够灵活进行付费合作的工作室 & 一人公司朋友，无论你是擅长做活动策划与执行、独立开发、各类设计、搭建多维表格，我们都有能付费合作的项目。",
-    },
-    {
-      id: "status-2",
-      emoji: "⚡",
-      label: "正在 Build",
-      titleEmoji: "",
-      title: "Bonjour!",
-      description:
-        "Bonjour! 是最酷的 GenZ Builder 与 Founder 使用的「新一代社交名片网络」，通过数字名片、Bonjour Card、AI 匹配与社区系统，我们让 Builder 更快被看见，更快找到同类，更快开始构建。Find the Others. Build Together.",
-      image: "/.figma/image/mlqnrv6p-q181oh6.png",
+      id: "building",
+      emoji: "01",
+      label: "当前状态",
+      titleEmoji: "->",
+      title: "构建 Agent Native 工作系统",
+      description: "把真实业务流、知识库和 AI 协作流程对齐。",
+      image: PLACEHOLDER_IMAGE,
     },
   ],
-
-  /* ── Social Links ── */
   socialLinks: [
-    { id: "s1", name: "小红书", description: "工作日常与生活碎片", icon: "/.figma/image/mlqnrv6p-6ti0gll.png" },
-    { id: "s2", name: "公众号", description: "深度思考与年度长文", icon: "/.figma/image/mlqnrv6p-ifdzucz.png" },
-    { id: "s3", name: "即刻", description: "一个公开的朋友圈", icon: "/.figma/image/mlqnrv6p-yf0d5ul.png" },
-    { id: "s4", name: "Bonjour! 社区", description: "半职业化社交", icon: "/.figma/image/mlqnrv6p-4bldnr5.png" },
-    { id: "s5", name: "X.com", description: "Build everything in pubic", icon: "/.figma/image/mlqnrv6p-yraz72p.png" },
+    {
+      id: "xhs",
+      name: "小红书",
+      description: "更新 AI 工作流与创业记录",
+      icon: PLACEHOLDER_IMAGE,
+      url: "https://example.com",
+    },
   ],
-
-  /* ── AI Products ── */
   aiProducts: [
-    { id: "a1", name: "Typless", description: "让我做一切工作都从说开始", icon: "/.figma/image/mlqnrv6p-kj33p6i.png" },
-    { id: "a2", name: "Youware", description: "Vibe coding 从此方便太多", icon: "/.figma/image/mlqnrv6p-cxfmgz8.png" },
-    { id: "a3", name: "Youmind", description: "知识管理与内容创作 AI 系统", icon: "/.figma/image/mlqnrv6p-ukaveaa.png" },
-    { id: "a4", name: "Zeabur", description: "解决产品上线部署的一切问题", icon: "/.figma/image/mlqnrv6p-xh3vajs.png" },
-    { id: "a5", name: "Insforge", description: "后端和数据库开发竟然那么容易", icon: "/.figma/image/mlqnrv6p-t67y9cm.png" },
+    {
+      id: "agent-os",
+      name: "Agent Native OS",
+      description: "面向个人 CEO 的 AI 经营操作系统",
+      icon: PLACEHOLDER_IMAGE,
+      url: "https://example.com",
+    },
   ],
-
-  /* ── Works ── */
   works: [
-    { id: 1, title: "SparkLab A.I.R 招募", image: "/.figma/image/mlqnrv6p-qk5kvki.png", category: "All", link: "https://example.com" },
-    { id: 2, title: "Disrupt Beyond Borders: Antler 全球化交流会", image: "/.figma/image/mlqnrv6p-yo8wat8.png", category: "All", link: "https://example.com" },
-    { id: 3, title: "Wine Coding: 醉后写代码", image: "/.figma/image/mlqnrv6p-5mjfki0.png", category: "All", link: "https://example.com" },
-    { id: 4, title: "AI Hackathon Tour 上海站", image: "/.figma/image/mlqnrv6p-ad8dqr6.png", category: "All", link: "https://example.com" },
-    { id: 5, title: "Workshop: Coding For Art", image: "/.figma/image/mlqnrv6p-d2quume.png", category: "All", link: "https://example.com" },
-    { id: 6, title: "2026「女子力」计划回顾 | Skyscanner 携手 Coding Girls", image: "/.figma/image/mlqnrv6p-0ganx29.png", category: "All", link: "https://example.com" },
+    {
+      id: 1,
+      title: "AI 经营操作系统",
+      image: PLACEHOLDER_IMAGE,
+      category: "系统",
+      link: "https://example.com",
+    },
   ],
-
-  /* ── Filters ── */
   filters: [
-    { id: "f1", name: "All", count: 30 },
-    { id: "f2", name: "AI行业思考", count: 10 },
-    { id: "f3", name: "异类年轻人生存法则", count: 5 },
-    { id: "f4", name: "一人公司", count: 4 },
-    { id: "f5", name: "增长与运营", count: 3 },
-    { id: "f6", name: "Bonjour! 第一人称视角", count: 2 },
-    { id: "f7", name: "人生节点", count: 2 },
-    { id: "f8", name: "策划过的创意活动", count: 1 },
-    { id: "f9", name: "真心安利的产品与服务", count: 1 },
+    { id: "all", name: "全部", count: 1 },
+    { id: "system", name: "系统", count: 1 },
   ],
-
-  /* ── Experience ── */
   experiences: [
-    { id: 1, title: "Product Manager", company: "Bonjour!", period: "2023 - Present", description: "Leading the product vision and development of the next-gen social platform for creators. Managed a cross-functional team of 10+.", initial: "B", color: "blue" },
-    { id: 2, title: "Product Designer", company: "Freelance", period: "2021 - 2023", description: "Designed user interfaces and experiences for various startups in FinTech and EdTech sectors. Delivered 15+ successful projects.", initial: "F", color: "dark" },
-    { id: 3, title: "Frontend Developer Intern", company: "TechCorp", period: "2020 - 2021", description: "Assisted in the development of the company's main marketing website using React and Tailwind CSS.", initial: "T", color: "purple" },
+    {
+      id: 1,
+      title: "Agent Native CEO",
+      company: "独立项目",
+      period: "2025 - Now",
+      description: "用 AI 维护业务系统、知识资产与内容生产链路。",
+      initial: "A",
+      color: "blue",
+      logo: PLACEHOLDER_IMAGE,
+    },
   ],
-
-  /* ── Network ── */
+  networkPartnerTypes: [
+    { id: "founder", label: "创业者" },
+    { id: "creator", label: "创作者" },
+  ],
   network: [
     {
-      id: "n1", nickname: "Vincent", recommendation: "领先的思维导图软件，帮助用户轻松捕捉灵感，激发创意、提高生产力。",
-      baseLocation: "深圳",
-      links: [
-        { title: "不上大学的 00 后 CEO：用数字名...", url: "https://example.com" },
-        { title: "不上大学的 00 后 CEO：用数字名片...", url: "https://example.com" },
-        { title: "不上大学的 00 后 CEO：用数字名...", url: "https://example.com" },
-      ],
-    },
-    {
-      id: "n2", nickname: "Vincent", recommendation: "领先的思维导图软件，帮助用户轻松捕捉灵感，激发创意、提高生产力。",
-      baseLocation: "深圳",
-      links: [
-        { title: "不上大学的 00 后 CEO：用数字名...", url: "https://example.com" },
-        { title: "不上大学的 00 后 CEO：用数字名片...", url: "https://example.com" },
-        { title: "不上大学的 00 后 CEO：用数字名...", url: "https://example.com" },
-      ],
+      id: "demo-person",
+      nickname: "示例伙伴",
+      recommendation: "适合一起探索 AI 原生组织方式。",
+      baseLocation: "Remote",
+      links: [{ title: "个人主页", url: "https://example.com" }],
+      partnerTypeIds: ["founder"],
+      avatar: PLACEHOLDER_IMAGE,
+      tags: ["AI", "系统"],
     },
   ],
 };

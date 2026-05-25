@@ -10,11 +10,16 @@ import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import ImageUploader from "@/components/ui/ImagePreview";
 import Button from "@/components/ui/Button";
+import SaveButton from "@/components/ui/SaveButton";
 import { Trash2 } from "lucide-react";
 
 export default function AIProductsEditor() {
   const { aiProducts, addAiProduct, updateAiProduct, deleteAiProduct } =
     usePortfolioStore();
+
+  const handleSave = () => {
+    localStorage.setItem("portfolio-data:updatedAt", String(Date.now()));
+  };
 
   const handleAdd = () => {
     addAiProduct({
@@ -30,7 +35,14 @@ export default function AIProductsEditor() {
       <PageHeader
         title="AI 产品"
         description="管理最喜欢的小众 AI 产品"
-        action={<Button onClick={handleAdd}>添加</Button>}
+        action={
+          <div className="flex items-center gap-2">
+            <SaveButton onSave={handleSave} />
+            <Button variant="secondary" type="button" onClick={handleAdd}>
+              添加
+            </Button>
+          </div>
+        }
       />
       <div className="space-y-3">
         {aiProducts.map((product) => (

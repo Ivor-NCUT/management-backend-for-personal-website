@@ -1,162 +1,94 @@
 /**
- * [INPUT]: 依赖 @/stores, @/components/ui/*, @/components/layout/PageHeader
+ * [INPUT]: 依赖 store、PageHeader 与 UI 组件
  * [OUTPUT]: 对外提供 WorksEditor 组件
- * [POS]: sections/ 的作品管理编辑器，表格 + 模态框
+ * [POS]: sections/ 的作品编辑器
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
-import { useState } from "react";
-import { usePortfolioStore } from "@/stores/usePortfolioStore";
+import { Trash2 } from "lucide-react";
 import PageHeader from "@/components/layout/PageHeader";
-import Card from "@/components/ui/Card";
-import Input from "@/components/ui/Input";
-import ImageUploader from "@/components/ui/ImagePreview";
-import Modal from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
-import { Pencil, Trash2 } from "lucide-react";
-import type { Work } from "@/types";
-
-const EMPTY_WORK: Work = {
-  id: 0,
-  title: "",
-  image: "",
-  category: "All",
-  link: "",
-};
+import Card from "@/components/ui/Card";
+import ImageUploader from "@/components/ui/ImagePreview";
+import Input from "@/components/ui/Input";
+import SaveButton from "@/components/ui/SaveButton";
+import { usePortfolioStore } from "@/stores/usePortfolioStore";
 
 export default function WorksEditor() {
-  const { works, filters, addWork, updateWork, deleteWork } =
-    usePortfolioStore();
-  const [editing, setEditing] = useState<Work | null>(null);
-  const [isNew, setIsNew] = useState(false);
+  const { works, addWork, updateWork, deleteWork } = usePortfolioStore();
 
-  const openNew = () => {
-    setEditing({ ...EMPTY_WORK, id: Date.now() });
-    setIsNew(true);
+  const handleSave = () => {
+    localStorage.setItem("portfolio-data:updatedAt", String(Date.now()));
   };
 
-  const openEdit = (work: Work) => {
-    setEditing({ ...work });
-    setIsNew(false);
-  };
-
-  const save = () => {
-    if (!editing) return;
-    if (isNew) addWork(editing);
-    else updateWork(editing.id, editing);
-    setEditing(null);
+  const handleAdd = () => {
+    addWork({
+      id: Date.now(),
+      title: "测试作品",
+      image: "",
+      category: "未分类",
+      link: "",
+    });
   };
 
   return (
     <div>
       <PageHeader
-        title="作品管理"
-        description="管理过往作品精选"
-        action={<Button onClick={openNew}>添加作品</Button>}
+        title="作品"
+        description="管理主站作品列表"
+        action={
+          <div className="flex items-center gap-2">
+            <SaveButton onSave={handleSave} />
+            <Button type="button" variant="secondary" onClick={handleAdd}>
+              添加作品
+            </Button>
+          </div>
+        }
       />
-
-      {/* ── 作品列表 ── */}
-      <div className="space-y-2">
+      <div className="space-y-4">
         {works.map((work) => (
-          <Card
-            key={work.id}
-            className="flex items-center gap-4 !p-3"
-          >
-            {work.image && (
-              <img
-                src={work.image}
-                alt={work.title}
-                className="w-16 h-11 rounded-lg object-cover border border-gray-100 flex-shrink-0"
+          <Card key={work.id} className="grid grid-cols-1 gap-4 lg:grid-cols-[260px_1fr_auto]">
+            <ImageUploader
+              label="作品图片"
+              value={work.image}
+              onChange={(image) => updateWork(work.id, { image })}
+              aspectRatio={4 / 3}
+            />
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              <Input
+                label="标题"
+                value={work.title}
+                onChange={(event) => updateWork(work.id, { title: event.target.value })}
               />
-            )}
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-gray-900 truncate">
-                {work.title || "未命名"}
-              </p>
-              <p className="text-xs text-gray-400">
-                {work.link || "无链接"}
-              </p>
+              <Input
+                label="分类"
+                value={work.category}
+                onChange={(event) => updateWork(work.id, { category: event.target.value })}
+              />
+              <Input
+                label="链接（可选）"
+                value={work.link || ""}
+                onChange={(event) => updateWork(work.id, { link: event.target.value })}
+                className="md:col-span-2"
+              />
             </div>
-            <div className="flex items-center gap-1 flex-shrink-0">
-              <button
-                onClick={() => openEdit(work)}
-                className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600"
-              >
-                <Pencil className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => {
-                  if (confirm("确定删除？")) deleteWork(work.id);
-                }}
-                className="p-2 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-500"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => {
+                if (confirm("确定删除？")) deleteWork(work.id);
+              }}
+              className="self-start rounded-lg p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
+              aria-label={`删除 ${work.title}`}
+            >
+              <Trash2 className="h-4 w-4" />
+            </button>
           </Card>
         ))}
         {works.length === 0 && (
-          <Card className="text-center py-12 text-gray-400 text-sm">
-            暂无作品，点击上方「添加作品」按钮创建
+          <Card className="py-12 text-center text-sm text-gray-400">
+            暂无作品，点击上方「添加作品」创建
           </Card>
         )}
       </div>
-
-      {/* ── 编辑模态框 ── */}
-      <Modal
-        open={!!editing}
-        onClose={() => setEditing(null)}
-        title={isNew ? "添加作品" : "编辑作品"}
-      >
-        {editing && (
-          <div className="space-y-4">
-            <Input
-              label="标题"
-              value={editing.title}
-              onChange={(e) =>
-                setEditing({ ...editing, title: e.target.value })
-              }
-            />
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                分类
-              </label>
-              <select
-                value={editing.category}
-                onChange={(e) =>
-                  setEditing({ ...editing, category: e.target.value })
-                }
-                className="w-full h-10 px-3 rounded-xl bg-white border border-gray-200 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-              >
-                {filters.map((f) => (
-                  <option key={f.id} value={f.name}>
-                    {f.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <Input
-              label="跳转链接"
-              value={editing.link || ""}
-              onChange={(e) =>
-                setEditing({ ...editing, link: e.target.value })
-              }
-              placeholder="https://..."
-            />
-            <ImageUploader
-              label="封面图"
-              value={editing.image}
-              onChange={(url) => setEditing({ ...editing, image: url })}
-              aspectRatio={16 / 9}
-            />
-            <div className="flex justify-end gap-2 pt-2">
-              <Button variant="secondary" onClick={() => setEditing(null)}>
-                取消
-              </Button>
-              <Button onClick={save}>保存</Button>
-            </div>
-          </div>
-        )}
-      </Modal>
     </div>
   );
 }

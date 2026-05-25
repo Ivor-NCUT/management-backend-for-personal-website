@@ -1,16 +1,17 @@
 /**
- * [INPUT]: 依赖 lucide-react 的 X
+ * [INPUT]: 依赖 Button
  * [OUTPUT]: 对外提供 TagInput 组件
- * [POS]: ui/ 的标签输入组件，支持添加/删除 chips
+ * [POS]: ui/ 的标签数组输入组件
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
 import { useState } from "react";
 import { X } from "lucide-react";
+import Button from "./Button";
 
 interface TagInputProps {
   label?: string;
   value: string[];
-  onChange: (tags: string[]) => void;
+  onChange: (value: string[]) => void;
   placeholder?: string;
 }
 
@@ -18,48 +19,56 @@ export default function TagInput({
   label,
   value,
   onChange,
-  placeholder = "输入后回车添加",
+  placeholder = "添加标签",
 }: TagInputProps) {
-  const [input, setInput] = useState("");
+  const [draft, setDraft] = useState("");
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && input.trim()) {
-      e.preventDefault();
-      if (!value.includes(input.trim())) {
-        onChange([...value, input.trim()]);
-      }
-      setInput("");
-    }
+  const addTag = () => {
+    const tag = draft.trim();
+    if (!tag || value.includes(tag)) return;
+    onChange([...value, tag]);
+    setDraft("");
   };
-
-  const remove = (tag: string) => onChange(value.filter((t) => t !== tag));
 
   return (
     <div>
       {label && (
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+        <label className="mb-1.5 block text-sm font-medium text-gray-700">
           {label}
         </label>
       )}
-      <div className="flex flex-wrap gap-1.5 p-2 rounded-xl bg-white border border-gray-200 min-h-[40px]">
+      <div className="flex flex-wrap gap-2 rounded-xl border border-gray-200 bg-white p-2">
         {value.map((tag) => (
           <span
             key={tag}
-            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-blue-50 text-blue-600 text-xs font-medium"
+            className="inline-flex h-7 items-center gap-1 rounded-lg bg-gray-100 px-2 text-xs text-gray-700"
           >
             {tag}
-            <button onClick={() => remove(tag)} className="hover:text-blue-800">
-              <X className="w-3 h-3" />
+            <button
+              type="button"
+              onClick={() => onChange(value.filter((item) => item !== tag))}
+              className="text-gray-400 hover:text-red-500"
+              aria-label={`删除 ${tag}`}
+            >
+              <X className="h-3 w-3" />
             </button>
           </span>
         ))}
         <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder={value.length === 0 ? placeholder : ""}
-          className="flex-1 min-w-[80px] text-sm outline-none bg-transparent"
+          value={draft}
+          onChange={(event) => setDraft(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              addTag();
+            }
+          }}
+          placeholder={placeholder}
+          className="min-w-32 flex-1 border-0 bg-transparent text-sm outline-none"
         />
+        <Button type="button" variant="secondary" onClick={addTag}>
+          添加
+        </Button>
       </div>
     </div>
   );

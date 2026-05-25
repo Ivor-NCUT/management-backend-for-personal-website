@@ -22,7 +22,9 @@ const EMPTY: NetworkPerson = {
   recommendation: "",
   baseLocation: "",
   links: [],
+  partnerTypeIds: [],
   avatar: "",
+  tags: [],
 };
 
 export default function NetworkEditor() {

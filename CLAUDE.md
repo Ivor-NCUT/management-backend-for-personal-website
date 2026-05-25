@@ -22,6 +22,7 @@ src/data/defaults.ts: 默认数据集（与 web 同构）
 src/lib/utils.ts: cn() 样式合并工具
 src/lib/insforge.ts: Insforge 客户端初始化
 src/lib/storage.ts: 图片上传/删除服务（Insforge Storage）
+src/lib/portfolioSync.ts: 作品集同步桥，向主站 origin 广播最新 localStorage 数据
 
 ### components/layout/
 Sidebar.tsx: 侧边导航栏，含导出/导入/重置操作
@@ -30,6 +31,7 @@ PageHeader.tsx: 页面标题栏
 
 ### components/ui/
 Button.tsx: 按钮（primary/secondary/danger/ghost）
+SaveButton.tsx: 带交互反馈的保存按钮
 Card.tsx: 卡片容器
 Input.tsx: 文本输入框
 Textarea.tsx: 多行文本输入

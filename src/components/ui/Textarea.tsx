@@ -26,7 +26,7 @@ export default function Textarea({
       <textarea
         className={cn(
           "w-full px-3 py-2.5 rounded-xl bg-white border border-gray-200 text-sm text-gray-900 placeholder-gray-400 resize-none",
-          "focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300 transition-colors",
+          "focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-300 transition-colors",
           className,
         )}
         rows={3}

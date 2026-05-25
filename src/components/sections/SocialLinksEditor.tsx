@@ -10,11 +10,16 @@ import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import ImageUploader from "@/components/ui/ImagePreview";
 import Button from "@/components/ui/Button";
+import SaveButton from "@/components/ui/SaveButton";
 import { Trash2 } from "lucide-react";
 
 export default function SocialLinksEditor() {
   const { socialLinks, addSocialLink, updateSocialLink, deleteSocialLink } =
     usePortfolioStore();
+
+  const handleSave = () => {
+    localStorage.setItem("portfolio-data:updatedAt", String(Date.now()));
+  };
 
   const handleAdd = () => {
     addSocialLink({
@@ -30,7 +35,14 @@ export default function SocialLinksEditor() {
       <PageHeader
         title="社交媒体"
         description="管理社交媒体链接"
-        action={<Button onClick={handleAdd}>添加</Button>}
+        action={
+          <div className="flex items-center gap-2">
+            <SaveButton onSave={handleSave} />
+            <Button variant="secondary" type="button" onClick={handleAdd}>
+              添加
+            </Button>
+          </div>
+        }
       />
       <div className="space-y-3">
         {socialLinks.map((link) => (

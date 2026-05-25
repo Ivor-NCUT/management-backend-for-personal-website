@@ -3,7 +3,6 @@ dist/
 .vite/
 *.log
 .DS_Store
-pnpm-lock.yaml
 
 # InsForge & AI agent skills
 .insforge

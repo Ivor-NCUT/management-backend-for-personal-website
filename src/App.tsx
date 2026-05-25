@@ -17,7 +17,7 @@ import NetworkEditor from "@/components/sections/NetworkEditor";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Navigate to="/hero" replace />} />
