@@ -9,6 +9,10 @@ index.html: 入口 HTML
 package.json: 依赖配置
 vite.config.ts: Vite 构建配置
 tsconfig.json: TypeScript 配置
+Dockerfile: 可复现的 Node 构建与 Caddy 静态运行镜像
+Caddyfile: 8080 静态资源与 SPA 深链接路由
+.dockerignore: 构建上下文排除依赖、生成物与私密配置
+tests/migration-smoke.mjs: 隔离的合成数据持久化与图片降级验收
 
 ## src/ 结构
 

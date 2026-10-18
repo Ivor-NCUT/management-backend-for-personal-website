@@ -1,0 +1,10 @@
+.git
+.env
+.env.*
+node_modules
+dist
+.vite
+*.log
+*.private.*
+.DS_Store
+tests
